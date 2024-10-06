@@ -109,38 +109,54 @@ $("a.backuserdashboard").click(()=>{
     });
 })
 
+function loadContent(url, headerText) {
+    $("h3.coursedash-header").text(headerText);
+    $("div.coursedash-content").fadeOut(200, function () {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (data) {
+                $("div.coursedash-content").html(data).fadeIn(200);
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to load content:", status, error);
+            }
+        });
+    });
+}
+
 //Testing Only
 //$("div.course-card").click();
 
-//Assignments
-$("a.assignments").click(()=>{
-    $("h3.coursedash-header").text("Assignments");
-})
+// Assignments
+$("a.assignments").click(() => {
+    loadContent('assignments.php', 'Assignments');
+});
 
-//Grades
-$("a.grades").click(()=>{
-    $("h3.coursedash-header").text("Grades");
-})
+// Grades
+$("a.grades").click(() => {
+    loadContent('grades.php', 'Grades');
+});
 
-//Peer Reviews
-$("a.peer-reviews").click(()=>{
-    $("h3.coursedash-header").text("Peer Reviews");
-})
+// Peer Reviews
+$("a.peer-reviews").click(() => {
+    loadContent('peer_reviews.php', 'Peer Reviews');
+});
 
-//Discussions
-$("a.discussions").click(()=>{
-    $("h3.coursedash-header").text("Discussions");
-})
+// Discussions
+$("a.discussions").click(() => {
+    loadContent('discussions.php', 'Discussions');
+});
 
-//Classlist
-$("a.classlist").click(()=>{
-    $("h3.coursedash-header").text("Classlist");
-})
+// Classlist
+$("a.classlist").click(() => {
+    loadContent('classlist.php', 'Classlist');
+});
 
-//Settings
-$("a.csettings").click(()=>{
-    $("h3.coursedash-header").text("Course Settings");
-})
+// Settings
+$("a.csettings").click(() => {
+    loadContent('course_settings.php', 'Course Settings');
+});
 
 //Finish Loading
 $(window).on("load", () => {
