@@ -92,8 +92,12 @@ div.card {
 
 .std-hover:hover {
     transform: scale(1.02);
-    transition: 0.2s;
+    transition: 0.25s;
     cursor: pointer;
+}
+
+.std-hover {
+    transition: 0.25s all;
 }
 
 ul.side-nav {

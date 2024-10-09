@@ -34,6 +34,18 @@ if ($_POST["authorize"] == "gradeplus") {
         // Bind the values to the prepared statement
         $addCourseSql->bind_param("sssss", $_POST['coursecode'], $_POST['coursename'], $upload_dir, $_POST['instructorname'], $course_invite_code);
 
+        $result = $addCourseSql->execute();
+
+        // Prepare an SQL query to add the instructor into the 'enrollment' table
+        $addCourseSql = $conn->prepare("
+            INSERT INTO enrollment 
+            VALUES (?, ?, ?, 0, ?, ?)
+        ");
+
+        // Bind the values to the prepared statement
+        $addCourseSql->bind_param("sssss", $_POST['instructorname'], $_POST['coursecode'], $_POST['coursename'], $course_invite_code, $_POST['instructorname']);
+
+
         // Execute the prepared SQL statement
         $result = $addCourseSql->execute();
 

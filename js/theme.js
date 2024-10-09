@@ -47,7 +47,7 @@ function checkTheme() {
         $(".bwcolortext").removeClass("black-text").addClass("white-text");
         $(".bwcolornotext").removeClass("white").addClass("grey darken-4");
         $("img.addcourseimg").attr("src","img/addcoursedark.png");
-        $("body").css({"--transparent":"rgba(0,0,0,0.75)","--hover-color":"rgb(20,20,20)","--hover-color-2":"rgb(60,60,60)","--font-color": "white", "--warn-color": "yellow","background-color":"black"});
+        $("body").css({"--transparent":"rgba(0,0,0,0.75)","--hover-color":"rgb(20,20,20)","--hover-color-2":"rgb(60,60,60)","--bwcolor":"rgb(33,33,33)","--font-color": "white", "--warn-color": "yellow","background-color":"black"});
     } else { // Light Mode
         $("i.theme").text("dark_mode");
         $("span.theme").text("Dark");
@@ -60,7 +60,7 @@ function checkTheme() {
         $(".bwcolortext").removeClass("white-text").addClass("black-text");
         $(".bwcolornotext").removeClass("grey darken-4").addClass("white");
         $("img.addcourseimg").attr("src","img/addcourse.png");
-        $("body").css({"--transparent":"rgba(255,255,255,0.75)","--hover-color":"rgb(200,200,200)","--hover-color-2":"rgb(240,240,240)","--font-color": "black", "--warn-color": "red","background-color":"#225325"});
+        $("body").css({"--transparent":"rgba(255,255,255,0.75)","--hover-color":"rgb(200,200,200)","--hover-color-2":"rgb(240,240,240)","--bwcolor":"rgb(252,252,252)","--font-color": "black", "--warn-color": "red","background-color":"#225325"});
     }
 }
 

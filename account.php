@@ -33,8 +33,8 @@ if (isset($_SESSION['logtime']) && isset($_SESSION['username'])) {
 //User Type
 $usertype = $_SESSION['usertype'];
 
-//Dummy Data
-$courses = [["ECE 6400","Software Development","Raja Abbas"]];
+//Courses Data
+$courses = [];
 ?>
 
 <html>
@@ -53,7 +53,7 @@ $courses = [["ECE 6400","Software Development","Raja Abbas"]];
         <img src="img/loginbackdark.png" class="indexback2">
         <!-- Side Nav -->
         <ul id="slide-out" class="side-nav bwcolor sidenav-fixed">
-            <img class="side-nav-img" src='img/card.jpg'>
+            <img class="side-nav-img" style="height: 10rem;">
             <p class="side-nav-course-code">Loading</p>
             <li><a class="side-nav-item bwcolor assignments"><i class="material-icons">assignment</i>Assignments</a>
             </li>
@@ -133,7 +133,8 @@ $courses = [["ECE 6400","Software Development","Raja Abbas"]];
                 </div>
                 <div class="modal-footer bwcolor">
                     <a class="addenrol-modal-cancel waves-effect bwcolortext btn-flat">CANCEL</a>
-                    <a class="addenrol-modal-close waves-effect white-text green btn-flat">DONE</a>
+                    <a class="addenrol-modal-add waves-effect white-text green btn-flat">ADD</a>
+                    <a class="addenrol-modal-enrol waves-effect white-text green btn-flat">ENROLL</a>
                 </div>
             </div>
             <!-- Course List -->
@@ -142,31 +143,14 @@ $courses = [["ECE 6400","Software Development","Raja Abbas"]];
                     Your Courses
                 </p>
                 <div class="course-list-holder">
-                    <?php
-                    foreach ($courses as $course) {
-                        echo "<div class='card course-card std-hover'>
-                        <div class='card-image'>
-                          <img src='img/card.jpg'>
-                          <span class='card-title'>" . $course[0] . "</span>
-                          <a class='btn-floating halfway-fab waves-effect waves-light green'><i class='material-symbols-outlined'>keep</i></a>
-                        </div>
-                        <div class='card-content bwcolor'>
-                          <p>" . $course[1] . "</p>
-                          <p class='secondary'>" . $course[2] . "</p>
-                        </div>
-                      </div>";
-                    }
-?>
-                    <div class='card addenrolcourse std-hover bwcolor'>
-                        <div class='card-image'>
-                            <img class="addcourseimg" src='img/addcourse.png'>
-                            <a class='btn-floating halfway-fab waves-effect waves-light green addenrolcourse'><i
-                                    class='material-symbols-outlined'>add_circle</i></a>
-                        </div>
-                        <div class='card-content bwcolor'>
-                            <p class="addenrolcourse-text" id=<?php echo $usertype == "Student" ? "enroltrue" : "enrolfalse"; ?>><?php echo $usertype == "Student" ? "Enrol in a Course" : "Add a Course"; ?>
-                            </p>
-                        </div>
+                </div>
+                <div class='card addenrolcourse std-hover bwcolor'>
+                    <div class='card-image' style="height: 13rem; overflow: hidden;">
+                        <img class="addcourseimg" src='img/addcourse.png'>
+                    </div>
+                    <div class='card-content bwcolor'>
+                        <p class="addenrolcourse-text" id=<?php echo $usertype == "Student" ? "enroltrue" : "enrolfalse"; ?>><?php echo $usertype == "Student" ? "Enroll in a Course" : "Add a Course"; ?>
+                        </p>
                     </div>
                 </div>
             </div>
