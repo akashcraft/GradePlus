@@ -1,0 +1,51 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**' 
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      CI_ENV: ci
+      
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot -prootpassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with: 
+          php-version: '8.2'
+          extensions: mysqli pdo_mysql
+
+      - name: Start PHP built-in server
+        run: php -S localhost:8000 -t ./ > /dev/null 2>&1 &\
+
+      - name: Run composer install
+        run: composer install
+
+      - name: Run bootstrap
+        run: vendor/bin/codecept bootstrap
+
+      - name: Run Tests
+        run: vendor/bin/codecept run --debug
