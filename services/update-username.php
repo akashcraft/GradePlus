@@ -2,7 +2,10 @@
 
 require '../config.php';
 
+//Ben Thomas: Need to start the session to get the username and update username in session.
 session_start();
+ini_set('display_errors', 0);   //Ben Thomas: This is to prevent the error messages from being displayed on the webpage.
+
 // Service to update account username
 if ($_POST["authorize"] == "gradeplus") {
     if (!isset($_SESSION['username']) || $_SESSION['username'] == 'admin') {
@@ -27,13 +30,16 @@ if ($_POST["authorize"] == "gradeplus") {
             }
 
             if ($row[0] != 0) {
+                //echo("Username is already taken!");
                 $taken = 1;
             } else {
                 // Update username
                 $updateNameSql = sprintf("UPDATE login SET username = '%s' WHERE username = '%s'", $newName, $currentName);
                 $result = mysqli_query($conn, $updateNameSql);
                 if ($result) {
+                    //echo("Username update successful!");
                     $success = 1;
+                    $_SESSION['username'] = $newName;
                 } else {
                     error_log("Update username failed: " . mysqli_error($conn));
                     $error = 1;

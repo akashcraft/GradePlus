@@ -6,10 +6,18 @@ if (isset($_SESSION['logtime']) && isset($_SESSION['username'])) {
     if ($_SESSION['logtime'] > time()) {
         if (isset($_SESSION['username'])) {
             $username = $_SESSION['username'];
-            $email = $_SESSION['email'];
             $_SESSION['logtime'] = time() + (60 * 6);
             try {
                 $conn = mysqli_connect('localhost', 'gradeplusclient', 'gradeplussql', 'gradeplus');
+
+                //Password is not natively stored in the session for security reasons. Need to fetch it from database to display in account settings.
+                $sql = $conn->prepare("SELECT password, profilePicture FROM login WHERE username = ?");
+                $sql->bind_param("s", $username);
+                $sql->execute();
+                $sql->bind_result($password, $profilePicture);
+                $sql->fetch();
+                $sql->close();
+
                 $loggedin = 1;
                 $sqlUpdate = $conn->prepare("UPDATE login SET loggedin = ? WHERE username = ?");
                 $sqlUpdate->bind_param("is", $loggedin, $username);
@@ -30,8 +38,11 @@ if (isset($_SESSION['logtime']) && isset($_SESSION['username'])) {
     session_unset();
 }
 
-//User Type
+//Update account setting variables from session on window load. Important for the account settings functionality.
 $usertype = $_SESSION['usertype'];
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$dname = $_SESSION['dname'];
 
 //Courses Data
 $courses = [];
@@ -41,6 +52,7 @@ $courses = [];
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles-account.css">
+    <link rel="stylesheet" type="text/css" href="css/account-settings.css">
     <title>GradePlus - Dashboard</title>
     <link rel="icon" href="img/logoGreen.png">
 </head>
@@ -84,31 +96,96 @@ $courses = [];
         <div class="courseholder bwcolortext">
             <!-- Top Info -->
             <div class="top-icon-holder">
+                <?php if ($profilePicture): ?>
+                <img src="<?php echo $profilePicture; ?>"
+                    alt="Profile Picture" class="profile-pic">
+                <?php else: ?>
                 <i class="material-symbols-outlined accounticon">account_circle</i>
+                <?php endif; ?>
                 <div class="top-info-holder">
                     <h2 class="top-info-header">
                         Welcome
                         <span
-                            class="display-name"><?php echo $_SESSION['dname'];?></span>!
+                            class="display-name"><?php echo $dname;?></span>!
                         <span class="user-name"
-                            style="display: none;"><?php echo $_SESSION['username'];?></span>
+                            style="display: none;"><?php echo $username;?></span>
                     </h2>
                     <p class="accountemail">
                         <?php echo $_SESSION['email']; ?>
                     </p>
                 </div>
             </div>
-            <a class="waves-effect green addenrolcourse std-hover waves-light btn add-enrol"
-                id=<?php echo $usertype == "Student" ? "enroltrue" : "enrolfalse"; ?>><i
-                    class="material-symbols-outlined left">add_circle</i><?php echo $usertype == "Student" ? "Enroll in a Course" : "Add a Course"; ?></a>
             <!-- Account Settings -->
             <div class="account-settings">
-                Not Implemented Yet
-                <br>
+                <div class="account-item">
+                    <div class="account-item-text">
+                        <!-- Account Settings Display -->
+                        <h4>Account Settings</h4>
+                        <p> Username:
+                            <span
+                                class="user-name"><?php echo $username;?></span>
+                        </p>
+                        <p>Display Name:
+                            <span
+                                class="display-name"><?php echo $dname;?></span>
+                        </p>
+                        <!-- Check to see if a profile picture is uploaded, if not, display a default icon -->
+                        <p>Profile Picture: </p>
+                        <?php if ($profilePicture): ?>
+                        <img src="<?php echo $profilePicture; ?>"
+                            alt="Profile Picture" class="profile-pic">
+                        <?php else: ?>
+                        <i class="material-symbols-outlined accounticon">account_circle</i>
+                        <?php endif; ?>
+                        <p>Account Email:
+                            <?php echo $email; ?>
+                        </p>
+                        <p>Account Password:
+                            <?php echo isset($password) ? str_repeat('*', strlen($password)) : 'Password Not Found'; ?>
+                        </p>
+                        <button class="waves-effect green std-hover waves-light btn edit-account-settings-btn">Edit
+                            Account Settings</button>
+                    </div>
+                </div>
+                <!-- Account Settings Update Form -->
+                <div class="update-form" id="account-settings" style="display: none;">
+                    <p>New Username:</p>
+                    <input type="text" id="new-user-name"
+                        placeholder="<?php echo $username; ?>">
+                    <p>New Display Name:</p>
+                    <input type="text" id="new-display-name"
+                        placeholder="<?php echo $dname; ?>">
+                    <p>New Profile Picture:</p>
+                    <input type="file" id="new-profile-pic" accept="image/*">
+                    <p>New Account Email:</p>
+                    <input type="email" id="new-account-email"
+                        placeholder="<?php echo $email; ?>">
+                    <p>New Account Password:</p>
+                    <input type="password" id="new-account-password"
+                        placeholder="<?php echo isset($password) ? str_repeat('*', strlen($password)) : 'Password Not Found'; ?>">
+                    <div class="update-form-actions">
+                        <a class="waves-effect green std-hover waves-light btn save-btn">Save</a>
+                        <a class="waves-effect red std-hover waves-light btn return-btn">Return</a>
+                    </div>
+                </div>
+                <!-- Delete Account Section under Account Settings-->
+                <div class="delete-account-item">
+                    <button class="delete-account-btn waves-effect red std-hover waves-light btn delete-account-btn"><i
+                            class="material-icons left">warning</i>Delete
+                        Account</button>
+                </div>
+                <!-- Delete Account Safety Modal -->
+                <div class="delete-account-safety" id="account-settings" style="display: none;">
+                    <p>Are you sure you want to delete your account?</p>
+                    <div class="delete-account-form-actions">
+                        <a class="waves-effect red std-hover waves-light btn delete-account-confirm-btn">Yes, delete my
+                            account </a>
+                        <a class="waves-effect green std-hover waves-light btn delete-account-cancel-btn">No</a>
+                    </div>
+                </div>
                 <br>
                 <a class="waves-effect green std-hover waves-light btn account-settings-back"><i
-                        class="material-icons left">arrow_back</i>BACK TO
-                    DASHBOARD</a>
+                        class="material-icons left">arrow_back</i>BACK TO DASHBOARD</a>
             </div>
             <!-- Add or Enrol Modals -->
             <div class="modal bwcolor">
@@ -129,8 +206,8 @@ $courses = [];
                         </div>
                         <div style="display: flex; align-items: center;" class="input-field file-field upload-banner">
                             <i class="material-symbols-outlined prefix">add_photo_alternate</i>
-                            <button style="position: relative; margin-left: 3rem; margin-top: 0.3rem;" id="file-picker-btn"
-                                class="waves-effect green white-text btn-flat">
+                            <button style="position: relative; margin-left: 3rem; margin-top: 0.3rem;"
+                                id="file-picker-btn" class="waves-effect green white-text btn-flat">
                                 BANNER IMAGE
                                 <input type="file" name="coursebanner" id="coursebanner" accept="image/*" required>
                             </button>
@@ -153,6 +230,9 @@ $courses = [];
                 </p>
                 <div class="course-list-holder">
                 </div>
+                <a class="waves-effect green addenrolcourse std-hover waves-light btn add-enrol"
+                    id=<?php echo $usertype == "Student" ? "enroltrue" : "enrolfalse"; ?>><i
+                        class="material-symbols-outlined left">add_circle</i><?php echo $usertype == "Student" ? "Enroll in a Course" : "Add a Course"; ?></a>
             </div>
         </div>
         <?php include("footer.php"); ?>

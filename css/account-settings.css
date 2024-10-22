@@ -1,0 +1,113 @@
+.account-settings {
+    padding: 20px;
+}
+
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.account-item-text {
+    flex: 1;
+    text-align: left;
+    font-size: 1.2rem;
+    /* Larger text */
+    letter-spacing: 0.05rem;
+    /* More spaced out text */
+}
+
+.account-item-action {
+    flex: 0;
+}
+
+.account-item h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    /* Larger text */
+}
+
+.account-item p,
+.delete-account-safety p {
+    margin: 0;
+    font-size: 1.2rem;
+    /* Larger text */
+}
+
+.delete-account-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    justify-content: center;
+    text-align: center;
+}
+
+.delete-account-safety {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.delete-account-btn {
+    background-color: red;
+    color: white;
+}
+
+.profile-pic {
+    display: block;
+    margin: 10px 0;
+    /* Add margin for spacing */
+    max-width: 100px;
+    border-radius: 50%;
+}
+
+.edit-account-settings-btn {
+    display: block;
+    margin: 10px auto 0 auto;
+    /* Add margin-top for spacing */
+}
+
+.update-form,
+.delete-account-safety {
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.update-form p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+.update-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.save-btn,
+.return-btn,
+.delete-account-cancel-btn,
+.delete-account-confirm-btn {
+    display: block;
+    margin: 20px auto 0 auto;
+}

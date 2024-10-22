@@ -3,6 +3,8 @@
 require '../config.php';
 
 session_start();
+ini_set('display_errors', 0);   //Ben Thomas: This is to prevent the error messages from being displayed on the webpage.
+
 // Service to delete user account
 if ($_POST["authorize"] == "gradeplus") {
     if (!isset($_SESSION['username']) || $_SESSION['username'] == 'admin') {
@@ -29,6 +31,7 @@ if ($_POST["authorize"] == "gradeplus") {
             $deleteUserSql = sprintf("DELETE FROM login WHERE username = '%s'", $currentName);
             $result = mysqli_query($conn, $deleteUserSql);
             if ($result) {
+                //echo("User deleted successfully!");
                 $success = 1;
                 session_unset();
             } else {
@@ -36,7 +39,7 @@ if ($_POST["authorize"] == "gradeplus") {
                 $error = 1;
             }
         } else {
-            echo("User is not found!");
+            //echo("User is not found!");
         }
     } catch (Exception $e) {
         // SQL error

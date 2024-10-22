@@ -3,6 +3,8 @@
 require '../config.php';
 
 session_start();
+
+ini_set('display_errors', 0);
 // Service to update account dname
 if ($_POST["authorize"] == "gradeplus") {
     if (!isset($_SESSION['username']) || $_SESSION['username'] == 'admin') {
@@ -21,7 +23,9 @@ if ($_POST["authorize"] == "gradeplus") {
             $updateNameSql = sprintf("UPDATE login SET dname = '%s' WHERE username = '%s'", $newDname, $currentName);
             $result = mysqli_query($conn, $updateNameSql);
             if ($result) {
+                //echo("Dname update successful!");
                 $success = 1;
+                $_SESSION['dname'] = $newDname;
             } else {
                 error_log("Update Dname failed: " . mysqli_error($conn));
                 $error = 1;
