@@ -14,9 +14,9 @@ class RegisterUserCest {
         //Test that I can make a new account that isn't in the system.
         $I->sendPost('/services/register.php', [
             'authorize' => 'gradeplus',
-            'username' => 'mafewer',
-            'dname' => 'Matthew Fewer',
-            'email' => 'mafewer@mun.ca',
+            'username' => 'elahey',
+            'dname' => 'Emma Lahey',
+            'email' => 'elahey@mun.ca',
             'password' => 'testPassword',
             'usertype' => 'student'
         ]);
@@ -29,9 +29,9 @@ class RegisterUserCest {
         //This is used to make sure that when an account already exists we don't re-add it
         $I->sendPost('/services/register.php', [
             'authorize' => 'gradeplus',
-            'username' => 'mafewer',
-            'dname' => 'Matthew Fewer',
-            'email' => 'mafewer@mun.ca',
+            'username' => 'elahey',
+            'dname' => 'Emma Lahey',
+            'email' => 'elahey@mun.ca',
             'password' => 'testPassword',
             'usertype' => 'student'
         ]);

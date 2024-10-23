@@ -4,6 +4,8 @@
 // Set the content type to JSON
 header('Content-Type: application/json');
 
+require '../config.php';
+
 // Shared secret for authorization
 if (empty($_POST["authorize"]) || empty($_POST["course_code"])) {
     sendResponse(0, 1, [], "Missing or empty parameters.");
@@ -16,7 +18,7 @@ if (htmlspecialchars($_POST["authorize"]) !== "gradeplus") {
 }
 
 // Create a new MySQLi connection
-$conn = new mysqli('localhost', 'gradeplusclient', 'gradeplussql', 'gradeplus');
+$conn = new mysqli($DB_HOST, 'gradeplusclient', 'gradeplussql', 'gradeplus');
 
 // Check for connection errors
 if ($conn->connect_error) {
@@ -55,7 +57,7 @@ FROM
 JOIN 
     enrollment ON login.username = enrollment.username
 WHERE 
-    enrollment.courseCode = ?
+    enrollment.course_code = ?
 ";
 
 $stmt = $conn->prepare($sql);

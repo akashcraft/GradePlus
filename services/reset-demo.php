@@ -82,7 +82,10 @@ if ($_POST["authorize"] == "gradeplus") {
         ('demo', 'demo@gradeplus.com', 'demo', 'Demo', 0, 'Student'),
         ('admin', 'admin@gradeplus.com', 'admin', 'Administrator', 0, 'Admin'),
         ('instructor', 'instructor@gradeplus.com', 'instructor', 'Instructor', 0, 'Instructor'),
-        ('student', 'student@gradeplus.com', 'student', 'Student', 0, 'Student');
+        ('student', 'student@gradeplus.com', 'student', 'Student', 0, 'Student'),
+        ('mafewer', 'mafewer@mun.ca', 'password0','mafewer','0','Student'),
+        ('ddolomount', 'ddolomount@mun.ca', 'password3','ddolomount','0','Student'),
+        ('meruviaPastor', 'meruviapastor@mun.ca', 'password12','meruviapastor','0','Instructor');
         ";
         $result = mysqli_query($conn, $insertDataSql);
         if (!$result) {
@@ -114,7 +117,9 @@ if ($_POST["authorize"] == "gradeplus") {
         $insertDataSqlEnrollment = "
         INSERT INTO enrollment VALUES
         ('student', 'ECE 6400', 'Software Development', 1 , 'ABCDEF', 'student'),
-        ('instructor', 'ECE 6400', 'Software Development', 1 , 'ABCDEF', 'instructor');
+        ('instructor', 'ECE 6400', 'Software Development', 1 , 'ABCDEF', 'instructor'),
+        ('mafewer', 'CS 3301', 'Visual Computing and Applications', 0, 'GHIJKE', 'Oscar Meruvia-Pastor'),
+        ('ddolomount', 'CS 3301', 'Visual Computing and Applications', 0, 'GHIJKE', 'Oscar Meruvia-Pastor');
         ";
         $result = mysqli_query($conn, $insertDataSqlEnrollment);
         if (!$result) {
@@ -148,7 +153,9 @@ if ($_POST["authorize"] == "gradeplus") {
         INSERT INTO assignment (course_code, assignment_name, assignment_file, description, due_date, instructor, assignment_id) VALUES
         ('ECE 6400', 'A1', NULL , 'I am a description 1' , NULL, 'instructor', 0),
         ('ECE 6500', 'A1', NULL , 'I am a description 2' , NULL, 'Hammed', 1),
-        ('ECE 6400', 'A2', NULL , 'I am a description 3' , NULL, 'instructor', 2);
+        ('ECE 6400', 'A2', NULL , 'I am a description 3' , NULL, 'instructor', 2),
+        ('CS 3301','A1',NULL,'Question based on Histogram Operations','2024-09-27', 'meruviapastor', 3),
+        ('CS 3301','A2',NULL,'Questions based on smoothing filters','2024-10-13', 'meruviapastor', 4);
         ";
         $result = mysqli_query($conn, $insertDataSqlAssignment);
         if (!$result) {
@@ -181,7 +188,8 @@ if ($_POST["authorize"] == "gradeplus") {
         // Insert dummy data
         $insertDataSqlCourses = "
                 INSERT INTO courses VALUES
-                ('ECE 6400', 'Software Development', '../img/card.jpg', 'instructor', 'Instructor', 'ABCDEF');
+                ('ECE 6400', 'Software Development', '../img/card.jpg', 'instructor', 'Instructor', 'ABCDEF'),
+                ('CS 3301', 'Visual Computing and Applications', '../img/card.jpg', 'Oscar Meruvia-Pastor', 'meruviapastor', 'GHIJKE');
                 ";
         $result = mysqli_query($conn, $insertDataSqlCourses);
         if (!$result) {
